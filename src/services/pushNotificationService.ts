@@ -71,7 +71,7 @@ class PushNotificationService {
     try {
       const subscription = await registration.pushManager.subscribe({
         userVisibleOnly: true,
-        applicationServerKey: this.urlBase64ToUint8Array(VAPID_PUBLIC_KEY),
+        applicationServerKey: this.urlBase64ToUint8Array(VAPID_PUBLIC_KEY) as any,
       });
 
       // Send subscription to backend
