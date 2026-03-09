@@ -56,7 +56,7 @@ export const TimerProvider: React.FC<TimerProviderProps> = ({ children }) => {
     taskId: null,
   });
   
-  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const intervalRef = useRef<any>(null);
   const completionCallbackRef = useRef<(() => void) | null>(null);
 
   // Load state from localStorage on mount
