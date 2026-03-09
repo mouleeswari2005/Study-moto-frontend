@@ -55,11 +55,7 @@ export const TimerProvider: React.FC<TimerProviderProps> = ({ children }) => {
     duration: 0,
     taskId: null,
   });
-<<<<<<< HEAD
-  
-=======
 
->>>>>>> c77df5e (v2)
   const intervalRef = useRef<any>(null);
   const completionCallbackRef = useRef<(() => void) | null>(null);
 
