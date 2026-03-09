@@ -55,14 +55,18 @@ export const TimerProvider: React.FC<TimerProviderProps> = ({ children }) => {
     duration: 0,
     taskId: null,
   });
+<<<<<<< HEAD
   
+=======
+
+>>>>>>> c77df5e (v2)
   const intervalRef = useRef<any>(null);
   const completionCallbackRef = useRef<(() => void) | null>(null);
 
   // Load state from localStorage on mount
   useEffect(() => {
     if (!user) return;
-    
+
     const loadState = async () => {
       try {
         // First, try to get active session from backend
@@ -73,7 +77,7 @@ export const TimerProvider: React.FC<TimerProviderProps> = ({ children }) => {
           const durationSeconds = session.planned_duration_minutes * 60;
           const elapsedSeconds = Math.floor((Date.now() - startTime.getTime()) / 1000);
           const timeLeft = Math.max(0, durationSeconds - elapsedSeconds);
-          
+
           setState({
             isRunning: timeLeft > 0,
             timeLeft,
@@ -83,7 +87,7 @@ export const TimerProvider: React.FC<TimerProviderProps> = ({ children }) => {
             duration: durationSeconds,
             taskId: session.task_id || null,
           });
-          
+
           // Save to localStorage
           localStorage.setItem(STORAGE_KEY, JSON.stringify({
             sessionId: session.id,
@@ -100,7 +104,7 @@ export const TimerProvider: React.FC<TimerProviderProps> = ({ children }) => {
             const startTime = new Date(parsed.startTime);
             const elapsedSeconds = Math.floor((Date.now() - startTime.getTime()) / 1000);
             const timeLeft = Math.max(0, parsed.duration - elapsedSeconds);
-            
+
             if (timeLeft > 0 && parsed.sessionId) {
               // Verify session still exists
               try {
@@ -132,7 +136,7 @@ export const TimerProvider: React.FC<TimerProviderProps> = ({ children }) => {
         localStorage.removeItem(STORAGE_KEY);
       }
     };
-    
+
     loadState();
   }, [user]);
 
@@ -142,7 +146,7 @@ export const TimerProvider: React.FC<TimerProviderProps> = ({ children }) => {
       const updateTimer = () => {
         const elapsedSeconds = Math.floor((Date.now() - state.startTime!.getTime()) / 1000);
         const timeLeft = Math.max(0, state.duration - elapsedSeconds);
-        
+
         if (timeLeft <= 0) {
           // Timer completed - stop the timer and call completion callback
           setState(prev => ({
@@ -150,7 +154,7 @@ export const TimerProvider: React.FC<TimerProviderProps> = ({ children }) => {
             isRunning: false,
             timeLeft: 0,
           }));
-          
+
           if (completionCallbackRef.current) {
             completionCallbackRef.current();
           }
@@ -158,13 +162,13 @@ export const TimerProvider: React.FC<TimerProviderProps> = ({ children }) => {
           setState(prev => ({ ...prev, timeLeft }));
         }
       };
-      
+
       // Update immediately
       updateTimer();
-      
+
       // Then update every second
       intervalRef.current = setInterval(updateTimer, 1000);
-      
+
       return () => {
         if (intervalRef.current) {
           clearInterval(intervalRef.current);
@@ -202,7 +206,7 @@ export const TimerProvider: React.FC<TimerProviderProps> = ({ children }) => {
         planned_duration_minutes: plannedMinutes,
         task_id: taskId || undefined,
       });
-      
+
       const startTime = new Date();
       setState({
         isRunning: true,
@@ -221,7 +225,7 @@ export const TimerProvider: React.FC<TimerProviderProps> = ({ children }) => {
 
   const stopTimer = useCallback(async () => {
     if (!state.sessionId) return;
-    
+
     try {
       await api.put(`/pomodoro/${state.sessionId}/stop`);
       setState({

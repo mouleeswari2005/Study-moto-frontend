@@ -5,7 +5,7 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   server: {
-    //force: true, // Force dependency re-optimization
+    // Removed force: true as it is not a valid property for server
   },
   optimizeDeps: {
     force: true, // Force pre-bundling
