@@ -34,7 +34,7 @@ export const Pomodoro: React.FC = () => {
     shortBreak: 0,
     longBreak: 0,
   });
-  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const intervalRef = useRef<any>(null);
   const startTimeRef = useRef<Date | null>(null);
 
   const fetchTasks = async () => {
@@ -50,7 +50,7 @@ export const Pomodoro: React.FC = () => {
     try {
       setStatsLoading(true);
       const response = await api.get('/pomodoro/stats');
-      
+
       // Ensure we have all required fields
       if (response.data) {
         setStats({
@@ -69,7 +69,7 @@ export const Pomodoro: React.FC = () => {
       }
     } catch (error) {
       console.error('Failed to fetch stats:', error);
-      
+
       // Retry once after a delay if this was called after a session completion
       if (retryCount < 1) {
         setTimeout(() => {
@@ -77,7 +77,7 @@ export const Pomodoro: React.FC = () => {
         }, 1000);
         return;
       }
-      
+
       // Keep default values on error after retry
       setStats({
         total_minutes_today: 0,
@@ -206,7 +206,7 @@ export const Pomodoro: React.FC = () => {
     const studyMinutes = preferences?.study_duration_minutes || 0;
     const shortBreakMinutes = preferences?.short_break_duration_minutes || 0;
     const longBreakMinutes = preferences?.long_break_duration_minutes || 0;
-    
+
     switch (type) {
       case SessionType.STUDY:
         return studyMinutes * 60;
@@ -285,7 +285,7 @@ export const Pomodoro: React.FC = () => {
                   {isEditingDurations ? 'Cancel' : 'Edit Timings'}
                 </button>
               </div>
-              
+
               {isEditingDurations ? (
                 <div className="space-y-4 p-4 bg-gray-50 rounded-lg">
                   <div className="grid grid-cols-3 gap-4">
@@ -334,31 +334,28 @@ export const Pomodoro: React.FC = () => {
                 <div className="grid grid-cols-3 gap-4">
                   <button
                     onClick={() => setSessionType(SessionType.STUDY)}
-                    className={`px-4 py-2 rounded-md ${
-                      sessionType === SessionType.STUDY
+                    className={`px-4 py-2 rounded-md ${sessionType === SessionType.STUDY
                         ? 'bg-indigo-600 text-white'
                         : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                    }`}
+                      }`}
                   >
                     Study {preferences?.study_duration_minutes ? `(${preferences.study_duration_minutes} min)` : ''}
                   </button>
                   <button
                     onClick={() => setSessionType(SessionType.SHORT_BREAK)}
-                    className={`px-4 py-2 rounded-md ${
-                      sessionType === SessionType.SHORT_BREAK
+                    className={`px-4 py-2 rounded-md ${sessionType === SessionType.SHORT_BREAK
                         ? 'bg-indigo-600 text-white'
                         : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                    }`}
+                      }`}
                   >
                     Short Break {preferences?.short_break_duration_minutes ? `(${preferences.short_break_duration_minutes} min)` : ''}
                   </button>
                   <button
                     onClick={() => setSessionType(SessionType.LONG_BREAK)}
-                    className={`px-4 py-2 rounded-md ${
-                      sessionType === SessionType.LONG_BREAK
+                    className={`px-4 py-2 rounded-md ${sessionType === SessionType.LONG_BREAK
                         ? 'bg-indigo-600 text-white'
                         : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                    }`}
+                      }`}
                   >
                     Long Break {preferences?.long_break_duration_minutes ? `(${preferences.long_break_duration_minutes} min)` : ''}
                   </button>
